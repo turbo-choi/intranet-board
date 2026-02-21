@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bulletin Board List View - Dark Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ea5e9","primary-hover": "#0284c7",
+                        "primary-light": "#0f172a","background-dark": "#0f172a","card-dark": "#1e293b","border-dark": "#334155","text-main": "#f8fafc","text-secondary": "#94a3b8","text-muted": "#64748b",},
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem", // 12px
+                        "xl": "1rem",
+                        "full": "9999px",
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.3)',}
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-text-main antialiased min-h-screen flex overflow-hidden">
+<aside class="w-64 bg-card-dark border-r border-border-dark flex flex-col h-screen fixed left-0 top-0 z-20 shadow-soft">
+<div class="p-6 border-b border-border-dark flex items-center gap-3">
+<div class="size-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-[24px]">grid_view</span>
+</div>
+<div>
+<h1 class="text-base font-bold text-white leading-tight">Intranet</h1>
+<p class="text-xs text-text-secondary">Corporate System</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+<div class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4 px-3">Menu</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/20 text-primary font-medium group transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span>Notice</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white font-medium transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">chat_bubble_outline</span>
+<span>Free Board</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white font-medium transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">library_books</span>
+<span>Library</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white font-medium transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">help_outline</span>
+<span>Q&amp;A</span>
+</a>
+<div class="h-px bg-border-dark my-4 mx-3"></div>
+<div class="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4 px-3">Management</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-white/5 hover:text-white font-medium transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">settings</span>
+<span>Admin Console</span>
+</a>
+</nav>
+<div class="p-4 border-t border-border-dark">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition-colors">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-2 ring-primary/40" data-alt="Portrait of a user" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBydSWVLOhwucPr8chnrkOJQ8SzKTsOrfROSo-qZW5e_NoylRpBSztWZzA0P5pGTxNLwzVmRDMoV-dxnTn8gWfVyposrMcc7uCy4YXd6i55-9GRhAT0ujtDfG-5yaB0pccy22NfD8j2PzpNxVcQ2O3J3JvRCyllvpXZN7gLAscXgorJ8uxKqS3EnEO3zkAd94NFoB7rTBs8wkEdyRhe2XV1CY9W-VSjgnnQ0BenHvsCSv5NWSRzfxaM3I9mlfLAAt0WyXkyKNfQ0M7q");'></div>
+<div class="flex flex-col overflow-hidden">
+<span class="text-sm font-semibold text-white truncate">Alex Morgan</span>
+<span class="text-xs text-text-secondary truncate">alex.m@corp.com</span>
+</div>
+<span class="material-symbols-outlined ml-auto text-text-secondary text-[20px]">expand_more</span>
+</div>
+</div>
+</aside>
+<main class="flex-1 ml-64 flex flex-col h-screen relative bg-background-dark">
+<header class="h-16 bg-card-dark border-b border-border-dark px-8 flex items-center justify-between sticky top-0 z-10">
+<div class="flex items-center w-full max-w-md">
+<div class="relative w-full group">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-text-secondary group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="w-full py-2 pl-10 pr-4 text-sm bg-background-dark border border-border-dark rounded-lg focus:ring-1 focus:ring-primary focus:border-primary placeholder-text-secondary/60 text-white transition-all outline-none" placeholder="Global search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-text-secondary hover:text-primary hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 size-2.5 bg-red-500 rounded-full border-2 border-card-dark"></span>
+</button>
+<div class="h-8 w-px bg-border-dark mx-1"></div>
+<button class="p-2 text-text-secondary hover:text-primary hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-8">
+<div class="flex items-center gap-2 text-sm text-text-secondary mb-6">
+<a class="hover:text-primary transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[18px]">home</span>
+</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="hover:text-white cursor-pointer">Bulletin Board</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="font-medium text-primary">Notices</span>
+</div>
+<div class="flex flex-col gap-6">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-2xl font-bold text-white tracking-tight">Notice Board</h2>
+<p class="text-text-secondary mt-1">Important announcements and updates for all employees.</p>
+</div>
+</div>
+<div class="bg-card-dark rounded-xl shadow-soft border border-border-dark flex flex-col overflow-hidden">
+<div class="p-5 border-b border-border-dark flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card-dark">
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<div class="relative">
+<select class="appearance-none bg-background-dark border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-3 pr-8 py-2.5 cursor-pointer hover:border-primary/50 transition-colors outline-none">
+<option>All Categories</option>
+<option>HR</option>
+<option>IT</option>
+<option>General</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+<div class="relative flex-1 sm:w-64">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-text-secondary pointer-events-none">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</span>
+<input class="bg-background-dark border border-border-dark text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full pl-9 p-2.5 placeholder-text-secondary/60 outline-none" placeholder="Search by title..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white font-medium py-2.5 px-5 rounded-lg transition-all shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30">
+<span class="material-symbols-outlined text-[20px]">edit_square</span>
+<span>Write Notice</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-text-secondary">
+<thead class="text-xs text-text-secondary uppercase bg-black/20 border-b border-border-dark">
+<tr>
+<th class="px-6 py-4 font-semibold w-24" scope="col">ID</th>
+<th class="px-6 py-4 font-semibold w-16" scope="col">
+</th>
+<th class="px-6 py-4 font-semibold" scope="col">Title</th>
+<th class="px-6 py-4 font-semibold" scope="col">Author</th>
+<th class="px-6 py-4 font-semibold" scope="col">Date</th>
+<th class="px-6 py-4 font-semibold text-right" scope="col">Views</th>
+<th class="px-6 py-4 font-semibold text-right w-20" scope="col">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-dark">
+<tr class="bg-primary/10 hover:bg-primary/15 transition-colors group">
+<td class="px-6 py-4 font-medium text-primary">1042</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center size-8 rounded-full bg-red-500/10 text-red-400" title="Important">
+<span class="material-symbols-outlined text-[18px]">campaign</span>
+</span>
+</td>
+<td class="px-6 py-4 font-medium text-white group-hover:text-primary transition-colors">
+<div class="flex items-center gap-2">
+                                            Q3 Financial Reporting Guidelines
+                                            <span class="bg-red-900/40 text-red-300 text-xs font-medium px-2 py-0.5 rounded border border-red-800/50">Must Read</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Author Portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD6pw0b0tWCr4YwtT9HvS21lD9GMw99Y8M4gt2os2uK3HQgnkDFDHCwo5cKti3htD6aJ5zXHvcff36nr0q1FnEsUOt8M93rxxOGoPQo9Lzx_L3Hu_Y_bMup6PlzW4rKBXDiCha-NQj5mDYbmwjxEB9Hh7Y_cyoaM7gubG3sJpnvDbb4weSHQRy-7X3-NJ6iRH5mQAeopxmCDB0miJxTqLHOYrz-5lbCwhLDH0MLqwjxckcSShLKFsDftn0PuV0SuSWipLHItfoT_Q08");'></div>
+<span>Sarah Jenkins (HR)</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">Oct 24, 2023</td>
+<td class="px-6 py-4 text-right">342</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-primary transition-colors p-1 rounded hover:bg-white/10">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="bg-card-dark hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4 text-text-secondary">1041</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center size-8 rounded-full bg-blue-500/10 text-blue-400">
+<span class="material-symbols-outlined text-[18px]">article</span>
+</span>
+</td>
+<td class="px-6 py-4 font-medium text-white group-hover:text-primary transition-colors">
+<div class="flex items-center gap-2">
+                                            Upcoming System Maintenance Schedule
+                                            <span class="bg-blue-900/40 text-blue-300 text-xs font-medium px-2 py-0.5 rounded border border-blue-800/50">New</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-300 text-xs font-bold border border-indigo-500/30">IT</div>
+<span>IT Support Team</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">Oct 23, 2023</td>
+<td class="px-6 py-4 text-right">156</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-primary transition-colors p-1 rounded hover:bg-white/10">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="bg-card-dark hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4 text-text-secondary">1040</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center size-8 rounded-full bg-blue-500/10 text-blue-400">
+<span class="material-symbols-outlined text-[18px]">article</span>
+</span>
+</td>
+<td class="px-6 py-4 font-medium text-white group-hover:text-primary transition-colors">
+                                        Holiday Party Planning Committee Sign-up
+                                    </td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Author Portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAZN7wlmEpW31HjUlDCS39TUWNaW9mTkZz-OblyLyO7MhZ1P7glNQneTr8lSqvpB222YIA9MdoXXIFe_ogHEwK8guHeaPI8npaPOszoXBhHOIv1ojJbHeU31hsI9vMZOj8R_AtQo4VjJ9alnAgxrLwYgkRLKXUnzn7bAYlXuuohjnBV1ZHpxh6_4QrU-JcvF4qMhfZoWrXs27UNslzTtEEpIS0skLhjrej5wywzuUFALWbIeOPZ2G_jGu7YZ9uByvsQFF3glbr3KycL");'></div>
+<span>Michael Scott</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">Oct 22, 2023</td>
+<td class="px-6 py-4 text-right">89</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-primary transition-colors p-1 rounded hover:bg-white/10">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="bg-card-dark hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4 text-text-secondary">1039</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center size-8 rounded-full bg-gray-500/20 text-gray-400">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</span>
+</td>
+<td class="px-6 py-4 font-medium text-white group-hover:text-primary transition-colors opacity-75">
+<div class="flex items-center gap-2">
+                                            Quarterly Security Audit Results (Internal Only)
+                                            <span class="material-symbols-outlined text-[16px] text-gray-500">lock</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-300 text-xs font-bold border border-purple-500/30">SE</div>
+<span>Security Team</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">Oct 20, 2023</td>
+<td class="px-6 py-4 text-right">45</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-primary transition-colors p-1 rounded hover:bg-white/10">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="bg-card-dark hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4 text-text-secondary">1038</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center size-8 rounded-full bg-blue-500/10 text-blue-400">
+<span class="material-symbols-outlined text-[18px]">article</span>
+</span>
+</td>
+<td class="px-6 py-4 font-medium text-white group-hover:text-primary transition-colors">
+                                        Updated Work From Home Policy
+                                    </td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-cover bg-center" data-alt="Author Portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmU6rZlMD4vBkwTP1fjaFPlSrKcT1Z2SDgovOMlKE8-pAFfXK8Y7vuY4b2HOL-dGflwC0koGAAwTUNvdf0AaNO26kPZAxip_Dsxcf5MDRYso34XLPozdjgupmU7Zpfy5QnGqKSLGJWePH0kyVU6tq03EPTUYwzGq3S_MzCDYf1uHtXkalFr8lFyXPLhzUF3dqzP2Uwz52o_IP6oeXsfk72Ex2qKTwOfh-FG75yxL3sbCcyZuZwE6254lI3KJchnIvU6c-f8xqJ6YLr");'></div>
+<span>Jessica Pearson</span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">Oct 19, 2023</td>
+<td class="px-6 py-4 text-right">512</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-primary transition-colors p-1 rounded hover:bg-white/10">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between p-5 border-t border-border-dark bg-card-dark">
+<span class="text-sm text-text-secondary mb-4 sm:mb-0">
+                            Showing <span class="font-semibold text-white">1</span> to <span class="font-semibold text-white">10</span> of <span class="font-semibold text-white">450</span> entries
+                        </span>
+<div class="inline-flex items-center gap-1 rounded-lg bg-card-dark p-1">
+<button class="flex items-center justify-center h-8 w-8 rounded hover:bg-white/10 text-text-secondary transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="h-8 w-8 rounded bg-primary text-white text-sm font-medium shadow-sm transition-colors">1</button>
+<button class="h-8 w-8 rounded hover:bg-white/10 text-text-secondary text-sm font-medium transition-colors">2</button>
+<button class="h-8 w-8 rounded hover:bg-white/10 text-text-secondary text-sm font-medium transition-colors">3</button>
+<span class="h-8 w-8 flex items-center justify-center text-text-secondary text-sm">...</span>
+<button class="h-8 w-8 rounded hover:bg-white/10 text-text-secondary text-sm font-medium transition-colors">45</button>
+<button class="flex items-center justify-center h-8 w-8 rounded hover:bg-white/10 text-text-secondary transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<footer class="mt-8 mb-4 text-center text-xs text-text-secondary">
+                © 2023 Corporate Intranet System. All rights reserved.
+            </footer>
+</div>
+</main>
+
+</body></html>

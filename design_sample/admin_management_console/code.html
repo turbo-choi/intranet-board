@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Management Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0da2e7",
+                        "primary-dark": "#0b8ac4",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101c22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2c35",
+                        "text-primary-light": "#0f172a", // Slate 900
+                        "text-primary-dark": "#f1f5f9", // Slate 100
+                        "text-secondary-light": "#64748b", // Slate 500
+                        "text-secondary-dark": "#94a3b8", // Slate 400
+                        "border-light": "#e2e8f0", // Slate 200
+                        "border-dark": "#334155", // Slate 700
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom scrollbar for table containers */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #475569;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark font-display h-screen flex overflow-hidden antialiased">
+<!-- Sidebar -->
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex flex-col justify-between h-full flex-shrink-0 z-20 transition-colors duration-300">
+<div>
+<!-- Header Logo -->
+<div class="h-16 flex items-center px-6 border-b border-border-light dark:border-border-dark">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined fill text-3xl">grid_view</span>
+<h1 class="text-text-primary-light dark:text-text-primary-dark text-lg font-bold tracking-tight">CorpBoard</h1>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-1 p-4">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary-light dark:text-text-secondary-dark hover:bg-background-light dark:hover:bg-background-dark hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary-light dark:text-text-secondary-dark hover:bg-background-light dark:hover:bg-background-dark hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary-light dark:text-text-secondary-dark hover:bg-background-light dark:hover:bg-background-dark hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-sm font-medium">Board Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary-light dark:text-text-secondary-dark hover:bg-background-light dark:hover:bg-background-dark hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">content_paste</span>
+<span class="text-sm font-medium">Content Menu</span>
+</a>
+<div class="my-2 border-t border-border-light dark:border-border-dark"></div>
+<div class="px-3 py-2">
+<p class="text-xs font-semibold uppercase tracking-wider text-text-secondary-light dark:text-text-secondary-dark mb-2">Administration</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium" href="#">
+<span class="material-symbols-outlined fill">admin_panel_settings</span>
+<span class="text-sm">Access Control</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary-light dark:text-text-secondary-dark hover:bg-background-light dark:hover:bg-background-dark hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">System Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary-light dark:text-text-secondary-dark hover:bg-background-light dark:hover:bg-background-dark hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="text-sm font-medium">Audit Logs</span>
+</a>
+</nav>
+</div>
+<!-- User Profile Stub -->
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-cover bg-center" data-alt="User profile photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB8NwFGbBLw3_qM30UwlEdaPVrzMropw6JX0mz_UTrHhj4h1Od2BFP1ojei2fgPYLiBRe7IPdJL2GMrt1lKCtawcs2lqV0-RXXrG25UO1htKWww6ZkNec-I0J4yx5K__A2q1i9JdkCVFggK58bI2QTQVkmS3O8BRZXCcqADFq6ylssHpUJgrmdvrP6p1VgAr7jvSifOUI1Hx1nV93-PGogrFeTEcOVUcDWIRXwLrFks-7riWxELZ9kyGqx4i3Es_cLvbUKKnWLt5Htu');"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Admin User</span>
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark">System Administrator</span>
+</div>
+<button class="ml-auto text-text-secondary-light dark:text-text-secondary-dark hover:text-primary">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-background-light dark:bg-background-dark">
+<!-- Top Bar -->
+<header class="h-16 flex items-center justify-between px-6 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark flex-shrink-0">
+<div class="flex items-center gap-4">
+<nav aria-label="Breadcrumb" class="flex">
+<ol class="flex items-center space-x-2">
+<li>
+<a class="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary" href="#">
+<span class="material-symbols-outlined text-xl">home</span>
+</a>
+</li>
+<li>
+<span class="text-text-secondary-light dark:text-text-secondary-dark">/</span>
+</li>
+<li>
+<a class="text-sm font-medium text-text-secondary-light dark:text-text-secondary-dark hover:text-primary" href="#">Administration</a>
+</li>
+<li>
+<span class="text-text-secondary-light dark:text-text-secondary-dark">/</span>
+</li>
+<li>
+<span aria-current="page" class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Access Control</span>
+</li>
+</ol>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-text-secondary-light dark:text-text-secondary-dark hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-surface-dark"></span>
+</button>
+<div class="h-6 w-px bg-border-light dark:bg-border-dark"></div>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary-dark transition-colors shadow-sm">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>New Role</span>
+</button>
+</div>
+</header>
+<!-- Page Content Scroll Area -->
+<div class="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar">
+<div class="max-w-7xl mx-auto flex flex-col gap-6">
+<!-- Page Title Section -->
+<div class="flex flex-col gap-1">
+<h1 class="text-2xl font-bold text-text-primary-light dark:text-text-primary-dark tracking-tight">Access Control Center</h1>
+<p class="text-text-secondary-light dark:text-text-secondary-dark">Manage user roles, define system permissions, and oversee member access.</p>
+</div>
+<!-- Tabs -->
+<div class="border-b border-border-light dark:border-border-dark">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<a class="border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:border-border-light hover:text-text-primary-light dark:hover:text-text-primary-dark whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium" href="#">
+                            Board Settings
+                        </a>
+<a class="border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:border-border-light hover:text-text-primary-light dark:hover:text-text-primary-dark whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium" href="#">
+                            Menu Structure
+                        </a>
+<a class="border-transparent text-text-secondary-light dark:text-text-secondary-dark hover:border-border-light hover:text-text-primary-light dark:hover:text-text-primary-dark whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium" href="#">
+                            Member List
+                        </a>
+<a aria-current="page" class="border-primary text-primary whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium" href="#">
+                            Roles &amp; Permissions
+                        </a>
+</nav>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+<!-- LEFT COLUMN: Role Matrix (Takes up 2/3 width on large screens) -->
+<div class="xl:col-span-2 flex flex-col gap-4">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-light dark:border-border-dark flex items-center justify-between">
+<h3 class="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark">Role-Permission Matrix</h3>
+<div class="flex gap-2">
+<button class="text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark hover:text-primary px-3 py-1.5 rounded border border-border-light dark:border-border-dark hover:border-primary transition-colors">Reset Defaults</button>
+<button class="text-xs font-medium text-white bg-primary hover:bg-primary-dark px-3 py-1.5 rounded transition-colors shadow-sm">Save Changes</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
+<thead class="bg-background-light dark:bg-background-dark">
+<tr>
+<th class="px-6 py-3 text-left text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider" scope="col">Role Name</th>
+<th class="px-6 py-3 text-center text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider" scope="col">Read</th>
+<th class="px-6 py-3 text-center text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider" scope="col">Write</th>
+<th class="px-6 py-3 text-center text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider" scope="col">Delete</th>
+<th class="px-6 py-3 text-center text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider" scope="col">Approve</th>
+<th class="px-6 py-3 text-center text-xs font-medium text-text-secondary-light dark:text-text-secondary-dark uppercase tracking-wider text-primary" scope="col">Super Admin</th>
+</tr>
+</thead>
+<tbody class="bg-surface-light dark:bg-surface-dark divide-y divide-border-light dark:divide-border-dark">
+<!-- Admin Row -->
+<tr class="hover:bg-background-light dark:hover:bg-background-dark/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-8 w-8 rounded bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined text-lg">shield_person</span>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Administrator</div>
+<div class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Full system access</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-border-dark text-primary focus:ring-primary opacity-50 cursor-not-allowed" disabled="" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-border-dark text-primary focus:ring-primary opacity-50 cursor-not-allowed" disabled="" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-border-dark text-primary focus:ring-primary opacity-50 cursor-not-allowed" disabled="" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-border-dark text-primary focus:ring-primary opacity-50 cursor-not-allowed" disabled="" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-border-dark text-primary focus:ring-primary opacity-50 cursor-not-allowed" disabled="" type="checkbox"/>
+</td>
+</tr>
+<!-- Moderator Row -->
+<tr class="hover:bg-background-light dark:hover:bg-background-dark/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-8 w-8 rounded bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-lg">gavel</span>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Moderator</div>
+<div class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Content management</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<!-- Editor Row -->
+<tr class="hover:bg-background-light dark:hover:bg-background-dark/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-8 w-8 rounded bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-lg">edit_note</span>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Editor</div>
+<div class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Create &amp; edit posts</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<!-- Standard User Row -->
+<tr class="hover:bg-background-light dark:hover:bg-background-dark/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-8 w-8 rounded bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-600 dark:text-gray-400">
+<span class="material-symbols-outlined text-lg">person</span>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Standard User</div>
+<div class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Read-only access</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<!-- Guest Row -->
+<tr class="hover:bg-background-light dark:hover:bg-background-dark/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-8 w-8 rounded bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Guest</div>
+<div class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Public access</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input checked="" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-background-light dark:bg-background-dark px-6 py-3 flex items-center justify-between border-t border-border-light dark:border-border-dark">
+<span class="text-xs text-text-secondary-light dark:text-text-secondary-dark">Showing 5 system roles</span>
+<a class="text-xs font-medium text-primary hover:text-primary-dark" href="#">View detailed policy logs →</a>
+</div>
+</div>
+<!-- System Alerts / Info Card -->
+<div class="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 rounded-xl p-4 flex gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">info</span>
+<div class="flex flex-col gap-1">
+<h4 class="text-sm font-semibold text-text-primary-light dark:text-text-primary-dark">Permission Inheritance</h4>
+<p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">Modifying the "Moderator" role will affect 24 active users instantly. Changes are logged for audit purposes.</p>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Member Management (Takes up 1/3 width on large screens) -->
+<div class="xl:col-span-1 flex flex-col gap-4 h-full">
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm flex flex-col h-full">
+<div class="p-4 border-b border-border-light dark:border-border-dark">
+<h3 class="text-lg font-semibold text-text-primary-light dark:text-text-primary-dark mb-4">Quick Member Lookup</h3>
+<div class="flex flex-col gap-3">
+<!-- Search -->
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-secondary-light dark:text-text-secondary-dark text-lg">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border border-border-light dark:border-border-dark rounded-lg leading-5 bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark placeholder-text-secondary-light dark:placeholder-text-secondary-dark focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm" placeholder="Search by name or email..." type="text"/>
+</div>
+<!-- Filter Row -->
+<div class="flex gap-2">
+<select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-border-dark focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-background-light dark:bg-background-dark text-text-secondary-light dark:text-text-secondary-dark">
+<option>All Roles</option>
+<option>Admin</option>
+<option>Moderator</option>
+<option>User</option>
+</select>
+<select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-border-dark focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-background-light dark:bg-background-dark text-text-secondary-light dark:text-text-secondary-dark">
+<option>Active</option>
+<option>Suspended</option>
+<option>Pending</option>
+</select>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar max-h-[500px] xl:max-h-none p-2">
+<ul class="space-y-1">
+<!-- Member Item 1 -->
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-background-light dark:hover:bg-background-dark group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Female profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB88q1qZOn3ZYKDQ_MDnaxQq7c-ef7x58TpeXjpaOh7CaHlezk-zF-43ebIzH4cOf2r0eXjkG1UKlZAi4Iku5znsqpLvxQQC2EPeodEPe8_lx1ew0y6gdGUVjouPYfY8dU4LnOUXjQlcLcWpYwU1TbU8FyhpGSiWLeUy48nHSokijHz1EJI39EUoJGCAGGlQ6lYEBJQ82w7-Tpmh_SVk1Kp0Z48UZC8Gz5qCUfApJLMUmWKkm7wPLCmnadO4ctuJLe3nwu0OiJLCBYH');"></div>
+<span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white dark:ring-surface-dark bg-green-400"></span>
+</div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Sarah Smith</p>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">sarah.s@corp.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+                                                Admin
+                                            </span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</li>
+<!-- Member Item 2 -->
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-background-light dark:hover:bg-background-dark group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Male profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAU4xHxzKvIh600iPfve2VCIUu5oEo0OWI94RaELxG_U7K4Hd2oyWpkl2uzuXpMFAs5pLGfKiGSnNRrqLhYVlm_EUTVPE_BsAukuBZL-HnHtGlgPIBAyTMx4acHSzNxfahTkQl06snuaQB1CNBh3RoX15g3ETBTIL4t71FCw0JBL1HTw-vlaMHPEtScatpTzY9kcisRqCQmLCTtl5O_jY4a-49kuu5BnzRTNS4YD8Os3PS_U4l239eWYle95KnKUd3Na60ZgiRaD3-2');"></div>
+<span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white dark:ring-surface-dark bg-gray-300"></span>
+</div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Michael Chen</p>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">m.chen@corp.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
+                                                Moderator
+                                            </span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</li>
+<!-- Member Item 3 -->
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-background-light dark:hover:bg-background-dark group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Female profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDu48aOFQsRri_Rcf-spxx4rieK3F762JBEC4Jj6gUV6eyAMAMmlKFDrwSSuPN8EB_N8_AHAxrS8wp_iv_bRrwJ1HEf_KnkGhtjs2DGGstq9QvRZKB2fKLlmPYmnos4EEpE_0hGt19CqMrfK1uCNMXnd6kYFJjPUYEdFOJ1VuBIaJyZ2_orlcufuFguvkVge37VIbd1u_tE03yhehQDfPONGOxVT2opLXSjA4gRejCz4YjPOI1_-cMS-FEjgZ8uosnLi81VldPHqbkC');"></div>
+<span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white dark:ring-surface-dark bg-green-400"></span>
+</div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">Emily Davis</p>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">emily.d@corp.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">
+                                                Editor
+                                            </span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</li>
+<!-- Member Item 4 -->
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-background-light dark:hover:bg-background-dark group cursor-pointer bg-red-50/50 dark:bg-red-900/10">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center grayscale" data-alt="Male profile picture grayscale" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdvbZZ-ZpqfyeqPC6PHrQk7eM95Cce1NW05TW1cx0_JVPHPDXjGoMZZvMTz2d3VuxnilaM_5O6xe0Qg4A39vSPReBzuIMk4-i8o59vHjw0QMkdvacGzRl-X9dmRg2VGk8dMI4EXG3HMro_TmE7rogg9tqSJMDhGQUkuSt01SUuVrovosUvWXjpcUt4wHSjkZu-HI3M2dm5EIcXG1299Tna61NcQDQ64_Wm8yUr2gvbWFuzOTdDwNuOxKZIkvL7j1taGxujsz1BDIq9');"></div>
+<span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white dark:ring-surface-dark bg-red-400"></span>
+</div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark opacity-60">Robert Fox</p>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">r.fox@corp.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300">
+                                                Standard
+                                            </span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</li>
+<!-- Member Item 5 -->
+<li class="flex items-center justify-between p-3 rounded-lg hover:bg-background-light dark:hover:bg-background-dark group cursor-pointer">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="size-10 rounded-full bg-cover bg-center" data-alt="Male profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCP867-sZrg-pODcS1BXT4-fuJIeIywJF4SRuqc02UlJfElPZYsuJAFm3vDwct5Weaqtx1cGPU5kRW_ROET-Anl4Q_tiPeQesOr1QEtKrqLa5I0cUb8MSBZKsr8dVKSw_k8NC4tG2RIO7gFsrKjZeuhUzw_vMz0zNfHNt0stjgiGUgOe3OC41xBsIgcEXN39cyoz4-KH-uET2Q2UvHzIngiZILlvgot6hVC2mZ0iUmvVP4GUXhA1qySmf3HWCcEljxnEfKVq1w349-i');"></div>
+<span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white dark:ring-surface-dark bg-green-400"></span>
+</div>
+<div class="flex flex-col">
+<p class="text-sm font-medium text-text-primary-light dark:text-text-primary-dark">David Wilson</p>
+<p class="text-xs text-text-secondary-light dark:text-text-secondary-dark">david.w@corp.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300">
+                                                Standard
+                                            </span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-7 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</li>
+</ul>
+</div>
+<div class="p-4 border-t border-border-light dark:border-border-dark bg-background-light/50 dark:bg-background-dark/50">
+<button class="w-full flex justify-center items-center gap-2 py-2 px-4 border border-border-light dark:border-border-dark text-sm font-medium rounded-lg text-text-secondary-light dark:text-text-secondary-dark hover:text-primary hover:border-primary transition-colors bg-surface-light dark:bg-surface-dark shadow-sm">
+<span class="material-symbols-outlined text-lg">person_add</span>
+                                    Invite New Member
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Help Section -->
+<div class="mt-8 mb-4 flex items-center justify-between text-xs text-text-secondary-light dark:text-text-secondary-dark border-t border-border-light dark:border-border-dark pt-6">
+<p>© 2023 CorpBoard Inc. All rights reserved. v2.4.0</p>
+<div class="flex gap-4">
+<a class="hover:underline hover:text-primary" href="#">Documentation</a>
+<a class="hover:underline hover:text-primary" href="#">Support</a>
+<a class="hover:underline hover:text-primary" href="#">Privacy Policy</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
