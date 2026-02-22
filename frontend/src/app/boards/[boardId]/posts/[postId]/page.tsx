@@ -117,7 +117,7 @@ export default function PostDetailPage() {
       const payload: Record<string, unknown> = {
         title: editTitle,
         content: editContent,
-        qna_status: board?.key === "qna" ? editQnaStatus : null
+        qna_status: board?.board_type === "QNA" ? editQnaStatus : null
       };
       if (canPin) {
         payload.is_pinned = editPinned;
@@ -244,7 +244,7 @@ export default function PostDetailPage() {
                       Pinned
                     </label>
                   ) : null}
-                  {board.key === "qna" ? (
+                  {board.board_type === "QNA" ? (
                     <Select value={editQnaStatus} onChange={(e) => setEditQnaStatus(e.target.value)}>
                       <option value="OPEN">OPEN</option>
                       <option value="IN_PROGRESS">IN_PROGRESS</option>

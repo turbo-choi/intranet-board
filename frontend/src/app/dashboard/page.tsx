@@ -57,7 +57,7 @@ export default function DashboardPage() {
               <Link key={board.id} href={`/boards/${board.id}`} className="rounded-lg border border-border p-4 hover:bg-white/5">
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-semibold">{board.name}</h3>
-                  {board.key === "qna" ? <Badge>Q&A</Badge> : null}
+                  {board.board_type === "QNA" ? <Badge>Q&A</Badge> : null}
                 </div>
                 <p className="mt-1 text-sm text-textsub">{board.description}</p>
               </Link>

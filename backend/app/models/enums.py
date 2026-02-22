@@ -19,6 +19,11 @@ class QnaStatus(StrEnum):
     ANSWERED = "ANSWERED"
 
 
+class BoardType(StrEnum):
+    GENERAL = "GENERAL"
+    QNA = "QNA"
+
+
 class SystemPermission(StrEnum):
     MANAGE_BOARDS = "MANAGE_BOARDS"
     MANAGE_MENUS = "MANAGE_MENUS"

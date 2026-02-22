@@ -9,6 +9,7 @@ class BoardBase(BaseModel):
     key: str
     name: str
     description: str | None = None
+    board_type: str = "GENERAL"
     sort_order: int = 0
 
 
@@ -21,6 +22,7 @@ class BoardUpdate(BaseModel):
     key: str | None = None
     name: str | None = None
     description: str | None = None
+    board_type: str | None = None
     is_active: bool | None = None
     sort_order: int | None = None
     read_roles: list[str] | None = None

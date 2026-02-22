@@ -6,7 +6,7 @@ from app.core.security import hash_password
 from app.db.init_db import create_db_and_tables
 from app.db.session import engine
 from app.models.board import Board
-from app.models.enums import QnaStatus, RoleCode, SystemPermission
+from app.models.enums import BoardType, QnaStatus, RoleCode, SystemPermission
 from app.models.menu import Menu
 from app.models.menu_permission import MenuPermission
 from app.models.post import Post
@@ -129,7 +129,7 @@ def seed_test_posts(session: Session, boards: dict[str, Board], users: list[User
                 continue
             board = cycle[(number - 1) % len(cycle)]
             qna_status = None
-            if board.key == "qna":
+            if board.board_type == BoardType.QNA.value:
                 qna_status = QnaStatus.ANSWERED.value if number % 2 == 0 else QnaStatus.OPEN.value
 
             post = Post(
@@ -149,6 +149,7 @@ def seed_boards(session: Session) -> dict[str, Board]:
             "key": "notice",
             "name": "Notice",
             "description": "Company-wide announcements",
+            "board_type": BoardType.GENERAL.value,
             "sort_order": 1,
             "read_roles": [RoleCode.USER.value, RoleCode.MANAGER.value, RoleCode.ADMIN.value],
             "write_roles": [RoleCode.MANAGER.value, RoleCode.ADMIN.value],
@@ -157,6 +158,7 @@ def seed_boards(session: Session) -> dict[str, Board]:
             "key": "free",
             "name": "Free Board",
             "description": "Open discussion board",
+            "board_type": BoardType.GENERAL.value,
             "sort_order": 2,
             "read_roles": [RoleCode.USER.value, RoleCode.MANAGER.value, RoleCode.ADMIN.value],
             "write_roles": [RoleCode.USER.value, RoleCode.MANAGER.value, RoleCode.ADMIN.value],
@@ -165,6 +167,7 @@ def seed_boards(session: Session) -> dict[str, Board]:
             "key": "library",
             "name": "Library",
             "description": "Shared resources and templates",
+            "board_type": BoardType.GENERAL.value,
             "sort_order": 3,
             "read_roles": [RoleCode.USER.value, RoleCode.MANAGER.value, RoleCode.ADMIN.value],
             "write_roles": [RoleCode.MANAGER.value, RoleCode.ADMIN.value],
@@ -173,6 +176,7 @@ def seed_boards(session: Session) -> dict[str, Board]:
             "key": "qna",
             "name": "Q&A",
             "description": "Questions and answers",
+            "board_type": BoardType.QNA.value,
             "sort_order": 4,
             "read_roles": [RoleCode.USER.value, RoleCode.MANAGER.value, RoleCode.ADMIN.value],
             "write_roles": [RoleCode.USER.value, RoleCode.MANAGER.value, RoleCode.ADMIN.value],
@@ -189,6 +193,7 @@ def seed_boards(session: Session) -> dict[str, Board]:
         else:
             board.name = item["name"]
             board.description = item["description"]
+            board.board_type = item["board_type"]
             board.sort_order = item["sort_order"]
             board.is_active = True
             board.read_roles = item["read_roles"]

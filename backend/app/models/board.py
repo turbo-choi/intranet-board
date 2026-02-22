@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 from sqlalchemy import JSON, Column
 from sqlmodel import Field, SQLModel
 
+from app.models.enums import BoardType
+
 
 class Board(SQLModel, table=True):
     __tablename__ = "boards"
@@ -13,6 +15,7 @@ class Board(SQLModel, table=True):
     key: str = Field(unique=True, index=True, max_length=30)
     name: str = Field(max_length=100)
     description: str | None = Field(default=None, max_length=255)
+    board_type: str = Field(default=BoardType.GENERAL.value, max_length=20, nullable=False)
     is_active: bool = Field(default=True, nullable=False)
     sort_order: int = Field(default=0, nullable=False)
     read_roles: list[str] = Field(default_factory=list, sa_column=Column(JSON, nullable=False))

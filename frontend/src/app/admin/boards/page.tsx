@@ -11,7 +11,7 @@ import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { useToast } from "@/components/ui/toast";
 import { useAuth } from "@/hooks/use-auth";
 import { apiRequest } from "@/lib/api-client";
-import type { Board } from "@/lib/types";
+import type { Board, BoardType } from "@/lib/types";
 
 export default function AdminBoardsPage() {
   const { me } = useAuth(["ADMIN"]);
@@ -22,6 +22,7 @@ export default function AdminBoardsPage() {
   const [key, setKey] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [boardType, setBoardType] = useState<BoardType>("GENERAL");
   const [sortOrder, setSortOrder] = useState(10);
 
   const loadBoards = () => {
@@ -45,12 +46,14 @@ export default function AdminBoardsPage() {
           key,
           name,
           description,
+          board_type: boardType,
           sort_order: sortOrder
         })
       });
       setKey("");
       setName("");
       setDescription("");
+      setBoardType("GENERAL");
       loadBoards();
       success("저장되었습니다.");
     } catch (err) {
@@ -71,6 +74,7 @@ export default function AdminBoardsPage() {
           key: board.key,
           name: board.name,
           description: board.description,
+          board_type: board.board_type,
           sort_order: board.sort_order,
           is_active: board.is_active
         })
@@ -87,7 +91,7 @@ export default function AdminBoardsPage() {
   }
 
   return (
-    <AppShell me={me} title="Board Settings" description="Create boards and manage board metadata. Role permissions are managed in Roles.">
+    <AppShell me={me} title="Board Settings" description="Create boards and set board type (GENERAL/Q&A). Role permissions are managed in Roles.">
       <Card>
         <CardHeader>
           <h2 className="text-lg font-semibold">Create Board</h2>
@@ -97,6 +101,10 @@ export default function AdminBoardsPage() {
             <Input placeholder="Key (e.g. notice)" value={key} onChange={(e) => setKey(e.target.value)} required />
             <Input placeholder="Board name" value={name} onChange={(e) => setName(e.target.value)} required />
             <Input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <Select value={boardType} onChange={(e) => setBoardType(e.target.value as BoardType)}>
+              <option value="GENERAL">GENERAL</option>
+              <option value="QNA">Q&A</option>
+            </Select>
             <Input
               type="number"
               placeholder="Sort order"
@@ -124,6 +132,7 @@ export default function AdminBoardsPage() {
                   <TH>Key</TH>
                   <TH>Name</TH>
                   <TH>Description</TH>
+                  <TH>Type</TH>
                   <TH>Sort</TH>
                   <TH>Status</TH>
                   <TH>Action</TH>
@@ -153,6 +162,16 @@ export default function AdminBoardsPage() {
                         value={board.description ?? ""}
                         onChange={(e) => updateLocalBoard(board.id, { description: e.target.value })}
                       />
+                    </TD>
+                    <TD>
+                      <Select
+                        className="h-8"
+                        value={board.board_type}
+                        onChange={(e) => updateLocalBoard(board.id, { board_type: e.target.value as BoardType })}
+                      >
+                        <option value="GENERAL">GENERAL</option>
+                        <option value="QNA">Q&A</option>
+                      </Select>
                     </TD>
                     <TD>
                       <Input

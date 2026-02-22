@@ -8,10 +8,12 @@ from sqlmodel import Session, select
 from app.core.deps import CurrentUser, require_roles
 from app.db.session import get_session
 from app.models.board import Board
+from app.models.enums import BoardType
 from app.schemas.board import BoardCreate, BoardOut, BoardUpdate
 
 router = APIRouter(prefix="/admin/boards", tags=["admin-boards"])
 ALLOWED_ROLE_CODES = {"ADMIN", "MANAGER", "USER"}
+ALLOWED_BOARD_TYPES = {item.value for item in BoardType}
 
 
 def _validate_role_set(read_roles: list[str], write_roles: list[str]) -> None:
@@ -19,6 +21,13 @@ def _validate_role_set(read_roles: list[str], write_roles: list[str]) -> None:
     invalid_write = set(write_roles) - ALLOWED_ROLE_CODES
     if invalid_read or invalid_write:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid role code in read/write roles")
+
+
+def _normalize_board_type(value: str | None) -> str:
+    next_value = (value or BoardType.GENERAL.value).strip().upper()
+    if next_value not in ALLOWED_BOARD_TYPES:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid board type")
+    return next_value
 
 
 @router.get("", response_model=list[BoardOut])
@@ -43,12 +52,19 @@ def create_board(
     read_roles = payload.read_roles or ["USER", "MANAGER", "ADMIN"]
     write_roles = payload.write_roles or ["MANAGER", "ADMIN"]
     _validate_role_set(read_roles, write_roles)
+    board_type = _normalize_board_type(payload.board_type)
 
     exists = session.exec(select(Board).where(Board.key == payload.key)).first()
     if exists:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Board key already exists")
 
-    board = Board(**payload.model_dump(exclude={"read_roles", "write_roles"}), read_roles=read_roles, write_roles=write_roles, is_active=True)
+    board = Board(
+        **payload.model_dump(exclude={"read_roles", "write_roles", "board_type"}),
+        board_type=board_type,
+        read_roles=read_roles,
+        write_roles=write_roles,
+        is_active=True,
+    )
     session.add(board)
     session.commit()
     session.refresh(board)
@@ -67,6 +83,8 @@ def update_board(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Board not found")
 
     updates = payload.model_dump(exclude_unset=True)
+    if "board_type" in updates:
+        updates["board_type"] = _normalize_board_type(updates["board_type"])
     next_read_roles = updates.get("read_roles", board.read_roles)
     next_write_roles = updates.get("write_roles", board.write_roles)
     _validate_role_set(next_read_roles, next_write_roles)

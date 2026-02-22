@@ -97,7 +97,7 @@ export default function BoardListPage() {
               <option value="desc">Desc</option>
               <option value="asc">Asc</option>
             </Select>
-            {board?.key === "qna" ? (
+            {board?.board_type === "QNA" ? (
               <Select value={qnaStatus} onChange={(e) => setQnaStatus(e.target.value)}>
                 <option value="">All Q&A Status</option>
                 <option value="OPEN">OPEN</option>

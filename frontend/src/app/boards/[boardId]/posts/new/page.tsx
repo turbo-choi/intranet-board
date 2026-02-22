@@ -49,7 +49,7 @@ export default function NewPostPage() {
           title,
           content,
           is_pinned: canPin ? isPinned : false,
-          qna_status: board.key === "qna" ? qnaStatus : null
+          qna_status: board.board_type === "QNA" ? qnaStatus : null
         })
       });
 
@@ -114,7 +114,7 @@ export default function NewPostPage() {
                 <div />
               )}
 
-              {board.key === "qna" ? (
+              {board.board_type === "QNA" ? (
                 <div>
                   <label className="mb-1 block text-sm font-medium">Q&A Status</label>
                   <Select value={qnaStatus} onChange={(e) => setQnaStatus(e.target.value)}>

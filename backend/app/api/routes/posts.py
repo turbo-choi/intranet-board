@@ -12,7 +12,7 @@ from app.core.deps import CurrentUser, ensure_board_permission, get_current_user
 from app.db.session import get_session
 from app.models.attachment import Attachment
 from app.models.comment import Comment
-from app.models.enums import QnaStatus
+from app.models.enums import BoardType, QnaStatus
 from app.models.like import PostLike
 from app.models.post import Post
 from app.models.user import User
@@ -155,7 +155,7 @@ def list_posts(
     conditions = [Post.board_id == board.id]
     if search:
         conditions.append(or_(Post.title.contains(search), Post.content.contains(search)))
-    if qna_status:
+    if qna_status and board.board_type == BoardType.QNA.value:
         conditions.append(Post.qna_status == qna_status)
     if is_pinned is not None:
         conditions.append(Post.is_pinned == is_pinned)
@@ -224,7 +224,7 @@ def create_post(
         _ensure_pin_permission(current_user)
 
     qna_status = _validate_qna_status(payload.qna_status)
-    if board.key != "qna":
+    if board.board_type != BoardType.QNA.value:
         qna_status = None
     elif qna_status is None:
         qna_status = QnaStatus.OPEN.value
@@ -295,7 +295,7 @@ def update_post(
 
     if "qna_status" in updates:
         updates["qna_status"] = _validate_qna_status(updates["qna_status"])
-        if board.key != "qna":
+        if board.board_type != BoardType.QNA.value:
             updates["qna_status"] = None
 
     for key, value in updates.items():

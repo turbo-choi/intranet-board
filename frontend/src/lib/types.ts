@@ -1,4 +1,5 @@
 export type RoleCode = "ADMIN" | "MANAGER" | "USER";
+export type BoardType = "GENERAL" | "QNA";
 
 export interface AuthTokens {
   access_token: string;
@@ -20,6 +21,7 @@ export interface Board {
   key: string;
   name: string;
   description: string | null;
+  board_type: BoardType;
   sort_order: number;
   read_roles: RoleCode[];
   write_roles: RoleCode[];

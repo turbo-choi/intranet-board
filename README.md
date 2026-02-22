@@ -91,7 +91,7 @@ npm run dev
 - JWT 로그인 (`POST /api/auth/login`) + 회원가입 (`POST /api/auth/register`) + 내정보 (`GET /api/auth/me`) + refresh/logout
 - RBAC (`ADMIN/MANAGER/USER`) + 게시판별 `read_roles`/`write_roles`
 - 관리자 콘솔:
-  - 게시판 관리(생성/수정/비활성화)
+  - 게시판 관리(생성/수정/비활성화, 게시판 유형 `GENERAL/Q&A` 설정)
   - 메뉴 관리(CRUD + 순서 저장 + 카테고리 생성/삭제 + 메뉴-카테고리 연결 + Lucide 아이콘 선택)
     - 관리 메뉴(예: 메뉴관리/멤버관리/권한관리)도 하드코딩이 아니라 메뉴 데이터로 관리
   - 회원 검색/권한 변경/잠금
@@ -101,6 +101,7 @@ npm run dev
   - 조회수는 동일 사용자/게시글의 짧은 시간 중복 호출 시 중복 증가 방지(실사용 1클릭 1증가 보정)
 - 좋아요 토글(`POST /api/posts/{post_id}/like`) + 게시글 좋아요 수
 - Q&A 상태(`OPEN/IN_PROGRESS/ANSWERED`) 표시/수정
+  - `board_type=Q&A` 게시판에서만 상태 필터/입력/수정 UI 표시
 - 댓글 CRUD(작성자/관리자 수정·삭제) + 목록 댓글 수 표시
 - 첨부 업로드/다운로드(multipart, 로컬 저장, 메타 DB 저장)
 - 검색/필터/정렬/페이지네이션
